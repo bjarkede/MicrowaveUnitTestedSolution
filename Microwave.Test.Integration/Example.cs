@@ -5,6 +5,7 @@ namespace Microwave.Test.Integration
 {
     public class Tests
     {
+        // Test file.
         [SetUp]
         public void Setup()
         {
