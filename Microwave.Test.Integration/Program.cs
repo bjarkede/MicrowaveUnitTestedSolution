@@ -6,6 +6,7 @@ namespace Microwave.Test.Integration
 {
     class Test
     {
+        // Test
         [Test]
         public void Example()
         {
