@@ -17,7 +17,7 @@ namespace Microwave.Test.Unit
         [Test]
         public void Press_NoSubscribers_NoThrow()
         {
-            // We don't need an assert, as an exception would fail the test case
+            // We don't need an assert, as an exception would fail the test case.
             uut.Press();
         }
 
