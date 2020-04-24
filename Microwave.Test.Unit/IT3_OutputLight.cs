@@ -34,7 +34,8 @@ namespace Microwave.Test.Unit
         [Test]
         public void TurnOff_DisplayIsAnnouncedCorrectly()
         {
-            _utt.TurnOff();
+            _utt.TurnOn(); 
+            _utt.TurnOff(); // Assumes that the light was turned on.
             _output.Received().OutputLine("Light is turned off");
         }
 
