@@ -68,7 +68,8 @@
     <Compile Include="CookControllerTest.cs" />
     <Compile Include="DisplayTest.cs" />
     <Compile Include="DoorTest.cs" />
-    <Compile Include="IT1.cs" />
+    <Compile Include="IT1_OutputPowerTube.cs" />
+    <Compile Include="IT2_OutputDisplay.cs" />
     <Compile Include="LightTest.cs" />
     <Compile Include="PowerTubeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
