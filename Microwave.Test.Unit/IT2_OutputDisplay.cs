@@ -34,7 +34,7 @@ namespace Microwave.Test.Unit
         [TestCase(50)]
         public void ShowPower_DisplayIsAnnouncedCorrectly(int power)
         {
-            _utt.ShowPower(50);
+            _utt.ShowPower(power);
             _output.Received().OutputLine($"Display shows: {power} W");
         }
 
