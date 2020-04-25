@@ -53,12 +53,13 @@ namespace MicrowaveOvenClasses.Controllers
 
         public void OnTimerExpired(object sender, EventArgs e)
         {
+            // @NOTE:
+            // The timer is stopped when the expire event gets raised.
             if (isCooking)
             {
-                //myPowerTube.TurnOff();
-                //isCooking = false;
+                myPowerTube.TurnOff();
+                isCooking = false;
 
-                Stop(); // Use our stop function to stop the cooking
                 UI.CookingIsDone();
 
             }

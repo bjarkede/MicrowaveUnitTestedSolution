@@ -41,6 +41,12 @@ namespace MicrowaveOvenClasses.Controllers
             myDisplay = display;
         }
 
+        private void ResetValues()
+        {
+            powerLevel = 50;
+            time = 1;
+        }
+
         public void OnPowerPressed(object sender, EventArgs e)
         {
             switch (myState)
@@ -76,8 +82,7 @@ namespace MicrowaveOvenClasses.Controllers
             switch (myState)
             {
                 case States.SETPOWER:
-                    powerLevel = 50;
-                    time = 1;
+                    ResetValues();
                     myLight.TurnOff();
                     myDisplay.Clear();
                     myState = States.READY;
@@ -88,8 +93,7 @@ namespace MicrowaveOvenClasses.Controllers
                     myState = States.COOKING;
                     break;
                 case States.COOKING:
-                    powerLevel = 50;
-                    time = 1;
+                    ResetValues();
                     myCooker.Stop();
                     myLight.TurnOff();
                     myDisplay.Clear();
@@ -107,14 +111,13 @@ namespace MicrowaveOvenClasses.Controllers
                     myState = States.DOOROPEN;
                     break;
                 case States.SETPOWER:
-                    powerLevel = 50;
+                    ResetValues();
                     myLight.TurnOn();
                     myDisplay.Clear();
                     myState = States.DOOROPEN;
                     break;
                 case States.SETTIME:
-                    powerLevel = 50;
-                    time = 1;
+                    ResetValues();
                     myLight.TurnOn();
                     myDisplay.Clear();
                     myState = States.DOOROPEN;
@@ -122,8 +125,7 @@ namespace MicrowaveOvenClasses.Controllers
                 case States.COOKING:
                     myCooker.Stop();
                     myDisplay.Clear(); // Display did not get cleared before
-                    powerLevel = 50;
-                    time = 1;
+                    ResetValues();
                     myState = States.DOOROPEN;
                     break;
             }
@@ -145,8 +147,7 @@ namespace MicrowaveOvenClasses.Controllers
             switch (myState)
             {
                 case States.COOKING:
-                    powerLevel = 50;
-                    time = 1;
+                    ResetValues();
                     myDisplay.Clear();
                     myLight.TurnOff();
                     // Beep 3 times
