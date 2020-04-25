@@ -31,9 +31,9 @@ namespace Microwave.Test.Unit
         [SetUp]
         public void SetUp()
         {
-            _powerButton = Substitute.For<IButton>();
-            _timeButton = Substitute.For<IButton>();
-            _startCancelButton = Substitute.For<IButton>();
+            _powerButton = Substitute.For<Button>();
+            _timeButton = Substitute.For<Button>();
+            _startCancelButton = Substitute.For<Button>();
 
             _door = Substitute.For<IDoor>();
             _display = Substitute.For<IDisplay>();
@@ -47,40 +47,40 @@ namespace Microwave.Test.Unit
         [Test]
         public void OnPowerPressed_Ready()
         {
-            _utt.OnPowerPressed(null, null);
+            _powerButton.Press();
             _display.Received().ShowPower(50);
         }
 
         [Test]
         public void OnPowerPressed_SetPower()
         {
-            _utt.OnPowerPressed(null, null);
-            _utt.OnPowerPressed(null, null); // This triggers the States.SETPOWER case
+            _powerButton.Press();
+            _powerButton.Press();
             _display.Received().ShowPower(50 + 50);
         }
 
         [Test]
         public void OnTimePressed_SetPower()
         {
-            _utt.OnPowerPressed(null, null);
-            _utt.OnTimePressed(null,null);
+            _powerButton.Press();
+            _timeButton.Press();
             _display.Received().ShowTime(1,0);
         }
 
         [Test]
         public void OnTimePressed_SetTime()
         {
-            _utt.OnPowerPressed(null, null); // Make sure our state is States.SETPOWER
-            _utt.OnTimePressed(null, null); 
-            _utt.OnTimePressed(null, null); // This reaches the States.SETTIME case
+            _powerButton.Press();
+            _timeButton.Press();
+            _timeButton.Press();
             _display.Received().ShowTime(2, 0);
         }
 
         [Test]
         public void OnStartCancelPressed_SetPower()
         {
-            _utt.OnPowerPressed(null, null);
-            _utt.OnStartCancelPressed(null , null);
+            _powerButton.Press();
+            _startCancelButton.Press();
 
             _light.Received().TurnOff();
             _display.Received().Clear();
@@ -89,9 +89,9 @@ namespace Microwave.Test.Unit
         [TestCase(50, 1)]
         public void OnStartCancelPressed_SetTime(int powerLevel, int time)
         {
-            _utt.OnPowerPressed(null, null);
-            _utt.OnTimePressed(null,null);
-            _utt.OnStartCancelPressed(null, null);
+            _powerButton.Press();
+            _timeButton.Press();
+            _startCancelButton.Press();
 
             _light.Received().TurnOn();
             _cooker.ReceivedWithAnyArgs().StartCooking(powerLevel, time*60);
@@ -100,12 +100,12 @@ namespace Microwave.Test.Unit
         [Test]
         public void OnStartCancelPressed_Cooking()
         {
-            _utt.OnPowerPressed(null, null);
-            _utt.OnTimePressed(null, null);
-            _utt.OnStartCancelPressed(null, null);
+            _powerButton.Press();
+            _timeButton.Press();
+            _startCancelButton.Press();
 
             // The state is now cooking
-            _utt.OnStartCancelPressed(null, null);
+            _startCancelButton.Press();
 
             _cooker.Received().Stop();
             _light.Received().TurnOff();
