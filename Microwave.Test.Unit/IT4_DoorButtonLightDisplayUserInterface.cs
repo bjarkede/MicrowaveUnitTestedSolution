@@ -160,14 +160,12 @@ namespace Microwave.Test.Unit
             _light.Received().TurnOff();
         }
 
+        // @TODO
+        // This test should probably be done in the last integration step.
         [Test]
         public void CookingIsDone_Cooking()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
 
-            // @TODO
         }
     }
 }
