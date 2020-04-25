@@ -163,7 +163,11 @@ namespace Microwave.Test.Unit
         [Test]
         public void CookingIsDone_Cooking()
         {
+            _powerButton.Press();
+            _timeButton.Press();
+            _startCancelButton.Press();
 
+            // @TODO
         }
     }
 }
