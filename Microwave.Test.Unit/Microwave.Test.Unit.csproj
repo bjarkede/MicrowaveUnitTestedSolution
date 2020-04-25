@@ -72,6 +72,7 @@
     <Compile Include="IT2_OutputDisplay.cs" />
     <Compile Include="IT3_OutputLight.cs" />
     <Compile Include="IT4_DoorButtonLightDisplayUserInterface.cs" />
+    <Compile Include="IT5_CookControllercs.cs" />
     <Compile Include="LightTest.cs" />
     <Compile Include="PowerTubeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
