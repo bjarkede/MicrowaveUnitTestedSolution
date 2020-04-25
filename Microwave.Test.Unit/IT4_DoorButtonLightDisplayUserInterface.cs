@@ -27,7 +27,6 @@ namespace Microwave.Test.Unit
 
         private ICookController _cooker;
 
-
         [SetUp]
         public void SetUp()
         {
@@ -35,7 +34,7 @@ namespace Microwave.Test.Unit
             _timeButton = Substitute.For<Button>();
             _startCancelButton = Substitute.For<Button>();
 
-            _door = Substitute.For<IDoor>();
+            _door = Substitute.For<Door>();
             _display = Substitute.For<IDisplay>();
             _light = Substitute.For<ILight>();
 
@@ -115,31 +114,50 @@ namespace Microwave.Test.Unit
         [Test]
         public void OnDoorOpened_Ready()
         {
-
+            _door.Open();
+            _light.Received().TurnOn();
         }
 
         [Test]
         public void OnDoorOpened_SetPower()
         {
+            _powerButton.Press();
+            _door.Open();
 
+            _light.Received().TurnOn();
+            _display.Received().Clear();
         }
 
         [Test]
         public void OnDoorOpened_SetTime()
         {
+            _powerButton.Press();
+            _timeButton.Press();
+            _door.Open();
 
+            _light.Received().TurnOn();
+            _display.Received().Clear();
         }
 
         [Test]
         public void OnDoorOpened_Cooking()
         {
+            _powerButton.Press();
+            _timeButton.Press();
+            _startCancelButton.Press();
+            _door.Open();
 
+            _cooker.Received().Stop();
+            _display.Received().Clear();
         }
 
         [Test]
         public void OnDoorClosed_DoorOpen()
         {
+            _door.Open();
+            _door.Close();
 
+            _light.Received().TurnOff();
         }
 
         [Test]
