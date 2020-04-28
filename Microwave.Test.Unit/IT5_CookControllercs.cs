@@ -107,11 +107,7 @@ namespace Microwave.Test.Unit
         [TestCase(50, 60)]
         public void StartCooking_ShowTimeIsNotReceivedYet(int power, int time)
         {
-            ManualResetEvent e = new ManualResetEvent(false);
-            _timer.TimerTick += (sender, args) => e.Set();
-
             _utt.StartCooking(power, time);
-
             _output.DidNotReceive().OutputLine($"Display shows: {_timer.TimeRemaining / 60:D2}:{_timer.TimeRemaining % 60:D2}");
         }
 
