@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Microwave.Test.Unit
 {
     class IT6_UserInterfaceCookController
     {
-        private IUserInterface _utt;
+        private UserInterface _utt;
         private CookController _cooker;
         private Door _door;
         private Button _powerButton;
@@ -29,14 +30,16 @@ namespace Microwave.Test.Unit
         private Display _display;
         private PowerTube _powerTube;
         private Light _light;
-        private IOutput _output;
+        private Output _output;
         private Timer _timer;
+
+        private StringWriter _writer;
 
         [SetUp]
         public void SetUp()
         {
             _timer = new Timer();
-            _output = Substitute.For<IOutput>();
+            _output = new Output();
 
             _powerTube = new PowerTube(_output);
             _display = new Display(_output);
@@ -51,6 +54,9 @@ namespace Microwave.Test.Unit
             _utt = new UserInterface(_powerButton, _timeButton, _startCancelButton, _door, _display, _light, _cooker);
 
             _cooker.UI = _utt;
+
+            _writer = new StringWriter();
+            Console.SetOut(_writer);
         }
 
         [Test]
@@ -67,8 +73,8 @@ namespace Microwave.Test.Unit
             e.WaitOne(); // Wait Untill the time has expired.
 
             // CookingIsDone() should now have been called from the _cooker.
-            _output.Received().OutputLine($"Display cleared");
-            _output.Received().OutputLine($"Light is turned off");
+            Assert.That(_writer.ToString().Contains("Display cleared"));
+            Assert.That(_writer.ToString().Contains("Light is turned off"));
         }
 
         [TestCase(50)]
@@ -78,8 +84,8 @@ namespace Microwave.Test.Unit
             _timeButton.Press();
             _startCancelButton.Press();
 
-            _output.Received().OutputLine("Light is turned on");
-            _output.Received().OutputLine($"PowerTube works with {power}");
+            Assert.That(_writer.ToString().Contains("Light is turned on"));
+            Assert.That(_writer.ToString().Contains($"PowerTube works with {power}"));
         }
 
         [Test]
@@ -92,9 +98,9 @@ namespace Microwave.Test.Unit
             // The state is now cooking
             _startCancelButton.Press();
 
-            _output.Received().OutputLine($"PowerTube turned off");
-            _output.Received().OutputLine($"Display cleared");
-            _output.Received().OutputLine("Light is turned off");
+            Assert.That(_writer.ToString().Contains("Light is turned off"));
+            Assert.That(_writer.ToString().Contains("Display cleared"));
+            Assert.That(_writer.ToString().Contains("Light is turned off"));
         }
 
         [Test]
@@ -105,8 +111,8 @@ namespace Microwave.Test.Unit
             _startCancelButton.Press();
             _door.Open();
 
-            _output.Received().OutputLine($"PowerTube turned off");
-            _output.Received().OutputLine($"Display cleared");
+            Assert.That(_writer.ToString().Contains("PowerTube turned off"));
+            Assert.That(_writer.ToString().Contains("Display cleared"));
         }
     }
 }

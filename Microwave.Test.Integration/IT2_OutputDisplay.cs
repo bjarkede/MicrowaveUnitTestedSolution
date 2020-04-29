@@ -14,7 +14,7 @@ namespace Microwave.Test.Unit
     [TestFixture]
     class IT2_OutputDisplay
     {
-        private IDisplay _utt;
+        private Display _utt;
         private IOutput _output;
 
         [SetUp]

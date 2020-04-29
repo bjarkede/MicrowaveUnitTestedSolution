@@ -22,9 +22,9 @@ namespace Microwave.Test.Unit
     [TestFixture]
     class IT5_CookControllercs
     {
-        private ICookController _utt;
-        private IPowerTube _powerTube;
-        private IDisplay _display;
+        private CookController _utt;
+        private PowerTube _powerTube;
+        private Display _display;
         private IOutput _output;
         private ITimer _timer;
 

@@ -14,7 +14,7 @@ namespace Microwave.Test.Unit
     [TestFixture]
     class IT3_OutputLight
     {
-        private ILight _utt;
+        private Light _utt;
         private IOutput _output;
 
         [SetUp]

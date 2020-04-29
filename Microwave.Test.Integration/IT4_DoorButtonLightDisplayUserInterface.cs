@@ -17,13 +17,13 @@ namespace Microwave.Test.Unit
     [TestFixture]
     class IT4_DoorButtonLightDisplayUserInterface
     {
-        private IUserInterface _utt;
-        private IDoor _door;
-        private IButton _powerButton;
-        private IButton _timeButton;
-        private IButton _startCancelButton;
-        private IDisplay _display;
-        private ILight _light;
+        private UserInterface _utt;
+        private Door _door;
+        private Button _powerButton;
+        private Button _timeButton;
+        private Button _startCancelButton;
+        private Display _display;
+        private Light _light;
         private IOutput _output;
 
         [SetUp]
