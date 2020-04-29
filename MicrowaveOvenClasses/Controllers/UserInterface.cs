@@ -83,7 +83,7 @@ namespace MicrowaveOvenClasses.Controllers
             {
                 case States.SETPOWER:
                     ResetValues();
-                    myLight.TurnOff();
+                    //myLight.TurnOff(); Light never gets lit: error.
                     myDisplay.Clear();
                     myState = States.READY;
                     break;

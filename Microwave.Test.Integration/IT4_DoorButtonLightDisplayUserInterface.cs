@@ -24,17 +24,20 @@ namespace Microwave.Test.Unit
         private IButton _startCancelButton;
         private IDisplay _display;
         private ILight _light;
+        private IOutput _output;
 
         [SetUp]
         public void SetUp()
         {
-            _powerButton = Substitute.For<Button>();
-            _timeButton = Substitute.For<Button>();
-            _startCancelButton = Substitute.For<Button>();
+            _powerButton = new Button();
+            _timeButton = new Button();
+            _startCancelButton = new Button();
+            _door = new Door();
 
-            _door = Substitute.For<Door>();
-            _display = Substitute.For<IDisplay>();
-            _light = Substitute.For<ILight>();
+            _output = Substitute.For<IOutput>();
+
+            _display = new Display(_output);
+            _light = new Light(_output);
 
             _utt = new UserInterface(_powerButton,_timeButton,_startCancelButton, _door, _display, _light, null);
         }
@@ -43,7 +46,7 @@ namespace Microwave.Test.Unit
         public void OnPowerPressed_Ready()
         {
             _powerButton.Press();
-            _display.Received().ShowPower(50);
+            _output.Received().OutputLine($"Display shows: {50} W");
         }
 
         [Test]
@@ -51,7 +54,7 @@ namespace Microwave.Test.Unit
         {
             _powerButton.Press();
             _powerButton.Press();
-            _display.Received().ShowPower(50 + 50);
+            _output.Received().OutputLine($"Display shows: {100} W");
         }
 
         [Test]
@@ -59,7 +62,7 @@ namespace Microwave.Test.Unit
         {
             _powerButton.Press();
             _timeButton.Press();
-            _display.Received().ShowTime(1,0);
+            _output.Received().OutputLine($"Display shows: {1:D2}:{0:D2}");
         }
 
         [Test]
@@ -68,7 +71,7 @@ namespace Microwave.Test.Unit
             _powerButton.Press();
             _timeButton.Press();
             _timeButton.Press();
-            _display.Received().ShowTime(2, 0);
+            _output.Received().OutputLine($"Display shows: {2:D2}:{0:D2}");
         }
 
         [Test]
@@ -77,8 +80,7 @@ namespace Microwave.Test.Unit
             _powerButton.Press();
             _startCancelButton.Press();
 
-            _light.Received().TurnOff();
-            _display.Received().Clear();
+            _output.Received().OutputLine("Display cleared");
         }
 
 
@@ -86,7 +88,7 @@ namespace Microwave.Test.Unit
         public void OnDoorOpened_Ready()
         {
             _door.Open();
-            _light.Received().TurnOn();
+            _output.Received().OutputLine("Light is turned on");
         }
 
         [Test]
@@ -95,8 +97,8 @@ namespace Microwave.Test.Unit
             _powerButton.Press();
             _door.Open();
 
-            _light.Received().TurnOn();
-            _display.Received().Clear();
+            _output.Received().OutputLine("Display cleared");
+            _output.Received().OutputLine("Light is turned on");
         }
 
         [Test]
@@ -106,8 +108,8 @@ namespace Microwave.Test.Unit
             _timeButton.Press();
             _door.Open();
 
-            _light.Received().TurnOn();
-            _display.Received().Clear();
+            _output.Received().OutputLine("Display cleared");
+            _output.Received().OutputLine("Light is turned on");
         }
 
 
@@ -117,7 +119,7 @@ namespace Microwave.Test.Unit
             _door.Open();
             _door.Close();
 
-            _light.Received().TurnOff();
+            _output.Received().OutputLine("Light is turned off");
         }
 
     }
