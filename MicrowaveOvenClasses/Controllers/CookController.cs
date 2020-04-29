@@ -61,7 +61,6 @@ namespace MicrowaveOvenClasses.Controllers
                 isCooking = false;
 
                 UI.CookingIsDone();
-
             }
         }
 

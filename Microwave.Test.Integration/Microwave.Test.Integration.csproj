@@ -7,11 +7,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B2735BA-EF0A-42C4-8457-25786ACF90D9}</ProjectGuid>
+    <ProjectGuid>{8FAA19C2-9461-4B03-8063-8A3944B02098}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microwave.Test.Unit</RootNamespace>
-    <AssemblyName>Microwave.Test.Unit</AssemblyName>
+    <RootNamespace>Microwave.Test.Integration</RootNamespace>
+    <AssemblyName>Microwave.Test.Integration</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -64,25 +64,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonTest.cs" />
-    <Compile Include="CookControllerTest.cs" />
-    <Compile Include="DisplayTest.cs" />
-    <Compile Include="DoorTest.cs" />
-    <Compile Include="LightTest.cs" />
-    <Compile Include="PowerTubeTest.cs" />
+    <Compile Include="IT1_OutputPowerTube.cs" />
+    <Compile Include="IT2_OutputDisplay.cs" />
+    <Compile Include="IT3_OutputLight.cs" />
+    <Compile Include="IT4_DoorButtonLightDisplayUserInterface.cs" />
+    <Compile Include="IT5_CookControllercs.cs" />
+    <Compile Include="IT6_UserInterfaceCookController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimerTest.cs" />
-    <Compile Include="UserInterfaceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MicrowaveOvenClasses\MicrowaveOvenClasses.csproj">
       <Project>{2b04da6b-afe9-4548-aa05-84d806ba0fa4}</Project>
       <Name>MicrowaveOvenClasses</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

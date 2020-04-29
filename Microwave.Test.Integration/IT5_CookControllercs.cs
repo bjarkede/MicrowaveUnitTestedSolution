@@ -15,6 +15,7 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Execution;
 using Timer = MicrowaveOvenClasses.Boundary.Timer;
+using ITimer = MicrowaveOvenClasses.Interfaces.ITimer;
 
 namespace Microwave.Test.Unit
 {
@@ -31,7 +32,7 @@ namespace Microwave.Test.Unit
         public void SetUp()
         {
             // Stub
-            _timer = new Timer();
+            _timer = Substitute.For<Timer>();
             _output = Substitute.For<IOutput>();
 
             _powerTube = new PowerTube(_output);
@@ -76,8 +77,13 @@ namespace Microwave.Test.Unit
         [Test]
         public void StopException_IsAnnouncedCorrectly()
         {
-            _utt.StartCooking(50, 50);
-            _timer.Expired += Raise.EventWith(this, EventArgs.Empty);
+            ManualResetEvent e = new ManualResetEvent(false);
+            _timer.Expired += (sender, args) => e.Set();
+
+            _utt.StartCooking(50, 1);
+
+            e.WaitOne(1100);
+            
             _output.Received().OutputLine($"PowerTube turned off");
         }
 
@@ -107,9 +113,6 @@ namespace Microwave.Test.Unit
         [TestCase(50, 60)]
         public void StartCooking_ShowTimeIsNotReceivedYet(int power, int time)
         {
-            ManualResetEvent e = new ManualResetEvent(false);
-            _timer.TimerTick += (sender, args) => e.Set();
-
             _utt.StartCooking(power, time);
 
             _output.DidNotReceive().OutputLine($"Display shows: {_timer.TimeRemaining / 60:D2}:{_timer.TimeRemaining % 60:D2}");

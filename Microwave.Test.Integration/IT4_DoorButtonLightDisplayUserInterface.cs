@@ -25,8 +25,6 @@ namespace Microwave.Test.Unit
         private IDisplay _display;
         private ILight _light;
 
-        private ICookController _cooker;
-
         [SetUp]
         public void SetUp()
         {
@@ -38,9 +36,7 @@ namespace Microwave.Test.Unit
             _display = Substitute.For<IDisplay>();
             _light = Substitute.For<ILight>();
 
-            _cooker = Substitute.For<ICookController>(); // Not part of this integration step
-
-            _utt = new UserInterface(_powerButton,_timeButton,_startCancelButton, _door, _display, _light, _cooker);
+            _utt = new UserInterface(_powerButton,_timeButton,_startCancelButton, _door, _display, _light, null);
         }
 
         [Test]
@@ -85,31 +81,6 @@ namespace Microwave.Test.Unit
             _display.Received().Clear();
         }
 
-        [TestCase(50, 1)]
-        public void OnStartCancelPressed_SetTime(int powerLevel, int time)
-        {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
-
-            _light.Received().TurnOn();
-            _cooker.ReceivedWithAnyArgs().StartCooking(powerLevel, time*60);
-        }
-
-        [Test]
-        public void OnStartCancelPressed_Cooking()
-        {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
-
-            // The state is now cooking
-            _startCancelButton.Press();
-
-            _cooker.Received().Stop();
-            _light.Received().TurnOff();
-            _display.Received().Clear();
-        }
 
         [Test]
         public void OnDoorOpened_Ready()
@@ -139,17 +110,6 @@ namespace Microwave.Test.Unit
             _display.Received().Clear();
         }
 
-        [Test]
-        public void OnDoorOpened_Cooking()
-        {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
-            _door.Open();
-
-            _cooker.Received().Stop();
-            _display.Received().Clear();
-        }
 
         [Test]
         public void OnDoorClosed_DoorOpen()
